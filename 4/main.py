@@ -17,6 +17,8 @@ def extract_links_by_regex(html):
 
 def extract_links_titles_by_regex(html):
     links_titles = re.findall(r'<a href="(.*?)" title="(.*?)" class="jobCard_link"', html)
+    # format the result more readable
+    links_titles = [{"title": link[1], "link": link[0]} for link in links_titles]
     return links_titles
 
 def extract_links_titles_by_bs4(html):
@@ -26,7 +28,7 @@ def extract_links_titles_by_bs4(html):
     for href in hrefs:
         title = href.find('div', class_ = "job_secteur_title").text
         link = href['href']
-        links_titles.append((link, title))
+        links_titles.append({"title": title, "link": link})
     return links_titles
 
 if __name__ == '__main__':
@@ -38,15 +40,14 @@ if __name__ == '__main__':
     
     titles = extract_titles_by_regex(html)
     links = extract_links_by_regex(html)
-    
-    links_titles = zip(links, titles)
-    for link, title in links_titles:
-        print(f"{title} -> {link}")
+    links_titles = []
+    links_titles_zip = zip(links, titles)
+    for link, title in links_titles_zip:
+        links_titles.append({"title": title, "link": link})
+    print(links_titles)
 
     links_titles = extract_links_titles_by_regex(html)
-    for link, title in links_titles:
-        print(f"{title} -> {link}")
+    print(links_titles)
 
     links_titles = extract_links_titles_by_bs4(html)
-    for link, title in links_titles:
-        print(f"{title} -> {link}")
+    print(links_titles)
