@@ -1,6 +1,3 @@
-# add download.py to the imports in main.py:
-
-import download
 import re
 
 import html_parse
