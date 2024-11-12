@@ -4,7 +4,7 @@ import download
 
 # Extract all titles from the html
 def extract_titles_by_regex(html):
-    titles = re.findall(r'<div class="job_secteur_title">(.*?)</div>', html, re.DOTALL)
+    titles = re.findall(r'<h3 class="jobCard_title.*?">(.*?)</h3>', html, re.DOTALL)
     # Remove html tags
     titles = [re.sub(r'<.*?>', '', title) for title in titles]
     return titles
@@ -26,7 +26,7 @@ def extract_links_titles_by_bs4(html):
     hrefs = soup.find_all('a', class_='jobCard_link')
     links_titles = []
     for href in hrefs:
-        title = href.find('div', class_ = "job_secteur_title").text
+        title = href.find('h3', class_ = "jobCard_title").text
         link = href['href']
         links_titles.append({"title": title, "link": link})
     return links_titles
@@ -40,6 +40,7 @@ if __name__ == '__main__':
     
     titles = extract_titles_by_regex(html)
     links = extract_links_by_regex(html)
+    
     links_titles = []
     links_titles_zip = zip(links, titles)
     for link, title in links_titles_zip:
