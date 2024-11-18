@@ -8,7 +8,6 @@ FILE_PATH_SQLALCHEMY_DB = './data/links_titles_sqlalchemy.db'
 
 #save the links and titles to SQLite database
 def save_links_titles_db(links_titles):
-    import sqlite3
     conn = sqlite3.connect(FILE_PATH_DB)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS links_titles
@@ -23,7 +22,6 @@ def save_links_titles_db(links_titles):
 
 #load the links and titles from SQLite database
 def load_links_titles_db():
-    import sqlite3
     conn = sqlite3.connect(FILE_PATH_DB)
     c = conn.cursor()
     c.execute('SELECT * FROM links_titles')
